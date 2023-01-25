@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
-    public bool isAttacking;
+    public bool isAttacking=false;
     private Vector3 moveDirection;
     private Vector3 velocity;
     [SerializeField] private LayerMask groundMask;
@@ -19,10 +19,13 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Animator anim;
 
+    private SphereCollider spherePunch;
+
     private void Start(){ 
         controller = GetComponent<CharacterController>();
         anim = GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
+        spherePunch = GetComponent<SphereCollider>();
     }
     private void Update(){
         Move();
@@ -58,16 +61,24 @@ public class PlayerController : MonoBehaviour
     }
 
     void Attack(){
-            if (Input.GetKeyDown(KeyCode.Mouse0)){
+            if ((Input.GetKeyDown(KeyCode.Mouse0))&&(isAttacking==false)){
                     anim.SetBool("Attack1",true);
+                    isAttacking=true;
+                    StartCoroutine(WaitForPunchSphere());
                     StartCoroutine(WaitForNextAttack());   
         }
     }
     IEnumerator WaitForNextAttack(){
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
         anim.SetBool("Attack1",false);
         isAttacking=false;
+        spherePunch.enabled=false;
     }
+    IEnumerator WaitForPunchSphere(){
+        yield return new WaitForSeconds(0.5f);
+        spherePunch.enabled=true;
+    }
+
     private void IdleAnim(){
         anim.SetFloat("Speed", 0,0.1f,Time.deltaTime);
     }
