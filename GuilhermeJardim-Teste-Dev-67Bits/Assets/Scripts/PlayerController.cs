@@ -11,9 +11,8 @@ public class PlayerController : MonoBehaviour
     public bool isAttacking=false;
     private Vector3 moveDirection;
     private Vector3 velocity;
-    [SerializeField] private LayerMask groundMask;
     [SerializeField] private float gravity;
-    [SerializeField] private RuntimeAnimatorController newController;
+
 
    //References
     private CharacterController controller;
