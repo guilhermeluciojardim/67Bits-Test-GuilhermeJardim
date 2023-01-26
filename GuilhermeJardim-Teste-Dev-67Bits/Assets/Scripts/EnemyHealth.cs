@@ -9,10 +9,13 @@ public class EnemyHealth : MonoBehaviour
             // Check for Player Punch
         if ((coll.gameObject.tag == "Player") && (coll.gameObject.GetComponent<SphereCollider>().enabled==true)){
             
+
             gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
-            gameObject.GetComponent<Rigidbody>().AddForce (Vector3.up * 50f);
+            gameObject.GetComponent<Animator>().enabled = false;
             coll.gameObject.GetComponent<PlayerPower>().setPowerCount();
-            Destroy(gameObject,2f);
+            Destroy(gameObject,4f);
+
+
             
         }
     }
