@@ -40,6 +40,7 @@ public class PlayerPower : MonoBehaviour
         itemList.Add(newItem);
         
         if (powerCount>1){
+            newItem.transform.parent = this.transform;
             newItem.transform.parent = itemList[powerCount-1].transform;           
         }
         else{
