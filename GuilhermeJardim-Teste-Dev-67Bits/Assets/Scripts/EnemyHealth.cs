@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    // public GameObject[] pack;
+    private bool hasEntered=false;
+    
     void OnCollisionEnter(Collision coll){
             // Check for Player Punch
-        if ((coll.gameObject.tag == "Player") && (coll.gameObject.GetComponent<SphereCollider>().enabled==true)){
-            
-
-            gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ;
+        if ((coll.gameObject.tag == "Player") && (coll.gameObject.GetComponent<SphereCollider>().enabled==true) && (!hasEntered)){
+            hasEntered=true;
             gameObject.GetComponent<Animator>().enabled = false;
             coll.gameObject.GetComponent<PlayerPower>().setPowerCount();
+            coll.gameObject.GetComponent<SphereCollider>().enabled=false;
             Destroy(gameObject,4f);
-
-
-            
+            Debug.Log("acertou");
         }
-    }
-
-    
+    }  
 }
