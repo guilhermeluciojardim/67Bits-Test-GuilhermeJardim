@@ -9,17 +9,20 @@ public class PlayerPower : MonoBehaviour
     public GameObject itemPack;
     private GameObject Pack;
     public List<GameObject> packList; 
-    
-    public int powerCount;
 
+     public List<GameObject> itemList; 
+    public int powerCount;
     private GameObject[] items;
+
+    private GameObject[] player;
 
     // Start is called before the first frame update
     void Start()
     {
+        itemList = new List<GameObject>();
         powerCount=0;
         Pack = packList[0];
-
+        player = GameObject.FindGameObjectsWithTag("Player");
     }
     public void setPowerCount(){
         if (powerCount<5){
@@ -33,11 +36,19 @@ public class PlayerPower : MonoBehaviour
     }
 
     public void packAdd(){
-        var newITem = Instantiate(itemPack,Pack.transform.position,itemPack.transform.rotation);
-        newITem.transform.parent = this.transform;
+        var newItem = Instantiate(itemPack,Pack.transform.position,player[0].transform.rotation);
+        itemList.Add(newItem);
+        
+        if (powerCount>1){
+            newItem.transform.parent = itemList[powerCount-1].transform;           
+        }
+        else{
+            newItem.transform.parent = this.transform;
+        }
+        Pack.gameObject.SetActive(false);
         if (powerCount!=5){
             Pack=packList[powerCount];
-            }
+        }
     }
 
     public void resetPower(){
@@ -45,15 +56,19 @@ public class PlayerPower : MonoBehaviour
         powerCount=0;
         upgradeButton.interactable=false;
         Cursor.lockState = CursorLockMode.Locked;
+        itemList = new List<GameObject>();
         DeletePack();
         Pack=packList[0];
+        
 
     }
     private void DeletePack(){
     items =  GameObject.FindGameObjectsWithTag ("item");
-     for(var i = 0 ; i < items.Length ; i ++)
+     for(var i = 0 ; i < items.Length ; i ++){
          Destroy(items[i]);
- 
+         packList[i].SetActive(true);
+         }
+    
  }
 
 }
