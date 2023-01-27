@@ -10,7 +10,7 @@ public class PlayerPower : MonoBehaviour
     private GameObject Pack;
     public List<GameObject> packList; 
     
-    public int powerCount, packCount;
+    public int powerCount;
 
     private GameObject[] items;
 
@@ -18,27 +18,26 @@ public class PlayerPower : MonoBehaviour
     void Start()
     {
         powerCount=0;
-        packCount=0;
         Pack = packList[0];
 
     }
-    // Update is called once per frame
     public void setPowerCount(){
         if (powerCount<5){
             powerCount+=1;
             packAdd();
         } 
-        if (powerCount == 5){
+        else if (powerCount == 5){
             upgradeButton.interactable=true;
             Cursor.lockState = CursorLockMode.None;
-        }
-        
+        }  
     }
 
     public void packAdd(){
         var newITem = Instantiate(itemPack,Pack.transform.position,itemPack.transform.rotation);
         newITem.transform.parent = this.transform;
-        Pack=packList[powerCount];
+        if (powerCount!=5){
+            Pack=packList[powerCount];
+            }
     }
 
     public void resetPower(){
@@ -51,9 +50,7 @@ public class PlayerPower : MonoBehaviour
 
     }
     private void DeletePack(){
- 
     items =  GameObject.FindGameObjectsWithTag ("item");
- 
      for(var i = 0 ; i < items.Length ; i ++)
          Destroy(items[i]);
  

@@ -11,10 +11,10 @@ public class EnemyHealth : MonoBehaviour
         if ((coll.gameObject.tag == "Player") && (coll.gameObject.GetComponent<SphereCollider>().enabled==true) && (!hasEntered)){
             hasEntered=true;
             gameObject.GetComponent<Animator>().enabled = false;
-            coll.gameObject.GetComponent<PlayerPower>().setPowerCount();
+            gameObject.GetComponent<BoxCollider>().enabled=false;
             coll.gameObject.GetComponent<SphereCollider>().enabled=false;
             Destroy(gameObject,4f);
-            Debug.Log("acertou");
+             coll.gameObject.GetComponent<PlayerPower>().setPowerCount();
         }
     }  
 }
